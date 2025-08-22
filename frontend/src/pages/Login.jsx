@@ -17,8 +17,8 @@ const Login = () => {
   const { addToast } = useToast();
   const navigate = useNavigate();
 
-  if (isAuthenticated) {
-    return <Navigate to="/" replace />;
+  if (isAuthenticated) {  
+    return <Navigate to="/" />;
   }
 
   const handleChange = (e) => {

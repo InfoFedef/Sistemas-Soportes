@@ -79,7 +79,8 @@ const Reporte = sequelize.define('Reporte', {
     }
   }
 }, {
-  tableName: 'reportes_soporte'
+  tableName: 'reportes_soporte',
+  timestamps: false // AGREGAR ESTA LÍNEA
 });
 
 module.exports = Reporte;

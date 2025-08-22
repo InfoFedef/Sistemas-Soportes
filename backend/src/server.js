@@ -86,9 +86,8 @@ const startServer = async () => {
     // Probar conexión a la base de datos
     await testConnection();
     
-    // Sincronizar modelos (crear tablas si no existen)
-    await sequelize.sync({ alter: true });
-    console.log('📊 Modelos sincronizados con la base de datos');
+    // NO SINCRONIZAR - trabajar con estructura existente
+    console.log('🔗 Usando estructura de base de datos existente');
 
     // Iniciar servidor
     app.listen(PORT, () => {

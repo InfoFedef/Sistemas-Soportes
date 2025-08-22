@@ -2,13 +2,14 @@ const { Sequelize } = require('sequelize');
 require('dotenv').config();
 
 const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
+  process.env.DB_NAME || 'soporte_tecnico',
+  process.env.DB_USER || 'root',
+  process.env.DB_PASS || '',
   {
-    host: process.env.DB_HOST,
+    host: process.env.DB_HOST || 'localhost',
+    port: process.env.DB_PORT || 3306,
     dialect: 'mysql',
-    logging: false, // Cambiar a console.log para ver queries
+    logging: false, // Cambia a console.log para ver las consultas SQL
     pool: {
       max: 5,
       min: 0,
@@ -17,7 +18,6 @@ const sequelize = new Sequelize(
     }
   }
 );
-
 // Probar conexión
 const testConnection = async () => {
   try {

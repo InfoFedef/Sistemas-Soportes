@@ -9,11 +9,11 @@ const User = sequelize.define('User', {
     autoIncrement: true
   },
   nombre: {
-    type: DataTypes.STRING(100),
+    type: DataTypes.STRING(120),
     allowNull: false
   },
   email: {
-    type: DataTypes.STRING(150),
+    type: DataTypes.STRING(160),
     allowNull: false,
     unique: true,
     validate: {
@@ -24,16 +24,17 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING(255),
     allowNull: false
   },
-  rol: {
-    type: DataTypes.ENUM('admin', 'user'),
-    defaultValue: 'user'
+  role: {  // Cambiar 'rol' por 'role'
+    type: DataTypes.ENUM('admin', 'usuario'),
+    defaultValue: 'usuario'
   },
   activo: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: true
+    type: DataTypes.TINYINT(1),
+    defaultValue: 1
   }
 }, {
   tableName: 'usuarios',
+  timestamps: false, // Deshabilitar timestamps automáticos
   hooks: {
     beforeCreate: async (user) => {
       if (user.password) {

@@ -3,6 +3,7 @@ const { User } = require('../models');
 
 const login = async (req, res) => {
   try {
+    console.log('📥 Login request recibido:', req.body); // DEBUG
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -11,19 +12,29 @@ const login = async (req, res) => {
       });
     }
 
-    const user = await User.findOne({ where: { email, activo: true } });
+    // Cambiar activo: true por activo: 1
+    const user = await User.findOne({ where: { email, activo: 1 } });
+    console.log('👤 Usuario encontrado:', user ? 'SÍ' : 'NO'); // DEBUG
     
     if (!user) {
       return res.status(401).json({ 
-        message: 'Credenciales inválidas' 
+        message: 'Credenciales inválidas - Usuario no encontrado' 
       });
     }
 
+    console.log('📊 Datos del usuario:', {
+      id: user.id,
+      email: user.email,
+      rol: user.rol,  // Cambiar 'role' por 'rol'
+      activo: user.activo
+    }); // DEBUG
+
     const isValidPassword = await user.validatePassword(password);
+    console.log('🔐 Contraseña válida:', isValidPassword); // DEBUG
     
     if (!isValidPassword) {
       return res.status(401).json({ 
-        message: 'Credenciales inválidas' 
+        message: 'Credenciales inválidas - Contraseña incorrecta' 
       });
     }
 
@@ -31,7 +42,7 @@ const login = async (req, res) => {
       { 
         userId: user.id, 
         email: user.email, 
-        rol: user.rol 
+        rol: user.rol  // Cambiar 'role' por 'rol'
       },
       process.env.JWT_SECRET,
       { expiresIn: '30m' }
@@ -43,20 +54,20 @@ const login = async (req, res) => {
         id: user.id,
         nombre: user.nombre,
         email: user.email,
-        rol: user.rol
+        rol: user.rol  // Cambiar 'role' por 'rol'
       },
       expira_en: '30m'
     });
 
   } catch (error) {
-    console.error('Error en login:', error);
+    console.error('🔥 ERROR EN LOGIN:', error); // DEBUG MEJORADO
     res.status(500).json({ message: 'Error interno del servidor' });
   }
 };
 
 const register = async (req, res) => {
   try {
-    const { nombre, email, password, rol = 'user' } = req.body;
+    const { nombre, email, password, rol = 'usuario' } = req.body; // Cambiar 'role' por 'rol'
 
     if (!nombre || !email || !password) {
       return res.status(400).json({ 
@@ -76,7 +87,7 @@ const register = async (req, res) => {
       nombre,
       email,
       password,
-      rol
+      rol // Cambiar 'role' por 'rol'
     });
 
     res.status(201).json({
@@ -85,7 +96,7 @@ const register = async (req, res) => {
         id: user.id,
         nombre: user.nombre,
         email: user.email,
-        rol: user.rol
+        rol: user.rol // Cambiar 'role' por 'rol'
       }
     });
 
